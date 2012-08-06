@@ -1,0 +1,6 @@
+<h1>Entry List</h1>
+<ul>
+{% for entry in object_list %}
+<li><a href="{% url entry-detail pk=entry.pk %}">{{ entry.title }}</a></li>
+{% endfor %}
+</ul>
