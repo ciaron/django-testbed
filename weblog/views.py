@@ -1,11 +1,23 @@
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, ListView
 from django.contrib.sites.models import RequestSite
-from weblog.models import Entry
+from django.shortcuts import get_object_or_404
+from weblog.models import Entry, Weblog
 
 # comment this out, to use a Generic view (see url's 'about' line)
 #class AboutView(TemplateView):
 #    template_name = "about.html"
 
+class EntryListView(ListView):
+
+    model = Entry
+    template_name='entry_list.html'
+    
+    def get_queryset(self):
+#        raise Exception
+        print self.kwargs
+        self.weblog = get_object_or_404(Weblog, slug=self.kwargs['weblog_slug'])
+        return Entry.objects.filter(weblog=self.weblog)
+    
 class EntryDetailView(DetailView):
     model = Entry
 
