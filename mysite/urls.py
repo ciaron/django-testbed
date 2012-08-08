@@ -28,7 +28,7 @@ urlpatterns += patterns('',
     # TODO: filter entries according to weblog
     # i.e. change URL to r'^(?P<weblog-slug>[-\w]+)/$')
     #(r'^entries/$', ListView.as_view(model=Entry,)), # template name is inferred as 'entry_list.html'
-    (r'^(?P<weblog_slug>[-\w]+)/$', EntryListView.as_view()), # show entries for <weblog>, template name is inferred as 'entry_list.html'
+    url(r'^(?P<weblog_slug>[-\w]+)/$', EntryListView.as_view(), name='weblog'), # show entries for <weblog>, template name is inferred as 'entry_list.html'
 
     url(r'^entry/(?P<pk>\d+)/$', DetailView.as_view(model=Entry,),
         #EntryDetailView.as_view(),
