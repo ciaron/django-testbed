@@ -25,6 +25,7 @@ urlpatterns += patterns('',
 
     # template is implied: 'weblog_list.html'
     url(r'^$', ListView.as_view(model=Weblog,)),
+
     (r'^about/', TemplateView.as_view(template_name="about.html")),
 
     # TODO: filter entries according to weblog

@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, DetailView, ListView
-from django.contrib.sites.models import RequestSite
+from django.contrib.sites.models import RequestSite, Site
 from django.shortcuts import get_object_or_404
 from weblog.models import Entry, Weblog
 
@@ -10,6 +10,11 @@ from weblog.models import Entry, Weblog
 class EntryListView(ListView):
 
     model = Entry
+
+    print "###"
+    print Site.objects.get_current().domain
+    #print get_host(request)
+    print "###"
     
     def get_queryset(self):
         self.weblog = get_object_or_404(Weblog, slug=self.kwargs['weblog_slug'])
