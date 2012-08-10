@@ -22,21 +22,34 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     #(r'^about/', AboutView.as_view()),
+
+    # template is implied: 'weblog_list.html'
     url(r'^$', ListView.as_view(model=Weblog,)),
     (r'^about/', TemplateView.as_view(template_name="about.html")),
 
     # TODO: filter entries according to weblog
     # i.e. change URL to r'^(?P<weblog-slug>[-\w]+)/$')
     #(r'^entries/$', ListView.as_view(model=Entry,)), # template name is inferred as 'entry_list.html'
-    url(r'^(?P<weblog_slug>[-\w]+)/$', EntryListView.as_view(), name='weblog'), # show entries for <weblog>, template name is inferred as 'entry_list.html'
 
-    url(r'^entry/(?P<pk>\d+)/$', DetailView.as_view(model=Entry,),
-        #EntryDetailView.as_view(),
-        name='entry-detail',
-    ),
+    #url(r'^entry/(?P<pk>\d+)/$', DetailView.as_view(model=Entry,),
+    #    #EntryDetailView.as_view(),
+    #    name='entry-detail',
+    #),
 
-    url(r'^entry/(?P<slug>[-\w]+)/$',
-        DetailView.as_view(model=Entry,),
+    #url(r'^entry/(?P<slug>[-\w]+)/$',
+    #    DetailView.as_view(model=Entry,),
+    #    name='entry-detail',
+    #),
+
+    # show list of blog entries for <weblog_slug>, template name is inferred as 'entry_list.html'
+    url(r'^(?P<weblog_slug>[-\w]+)/$', 
+        EntryListView.as_view(), 
+        name='entry-list'
+    ), 
+
+    # show detail of blog entry for <weblog_slug>/<entry_slug>, template name is inferred as 'entry_detail.html'
+    url(r'^(?P<weblog_slug>[-\w]+)/(?P<entry_slug>[-\w]+)/$',
+        EntryDetailView.as_view(),
         name='entry-detail',
     ),
 
