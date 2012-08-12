@@ -1,7 +1,12 @@
 <h1>Entry List</h1>
+For subdomain:{{ request.subdomain }}
+{% if object_list.count == 0 %}
+    No entries found for this blogger
+{% else %}
 <ul>
 {% for entry in object_list %}
-    <li><a href="{% url entry-detail weblog_slug entry.slug %}">{{ entry.title }}</a></li>
+    <li><a href="{% url entry-detail entry.slug %}">{{ entry.title }}</a></li>
     {{ entry.slug }}
 {% endfor %}
 </ul>
+{% endif %}

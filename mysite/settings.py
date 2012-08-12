@@ -96,6 +96,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'mysite.middleware.SubdomainMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -111,6 +112,10 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     '/home/linstead/django-testbed/templates',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                           "django.core.context_processors.request",
+                           )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -154,3 +159,9 @@ LOGGING = {
         },
     }
 }
+# http://thingsilearned.com/2009/01/05/using-subdomains-in-django/
+# if you want your login sessions to work across all subdomains you can change the SESSION_COOKIE_DOMAIN variable as follows:
+# SESSION_COOKIE_DOMAIN = '.mysite.com'
+
+AUTH_PROFILE_MODULE = 'weblog.UserProfile'
+
