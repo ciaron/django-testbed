@@ -5,4 +5,4 @@
 *.swp
 *.0
 local_settings.py
-settings.py
+mysite/settings.py
