@@ -1,5 +1,7 @@
 <h1>Entry List</h1>
-For subdomain:{{ request.subdomain }}
+For subdomain: {{ request.subdomain }}<br/>
+site owner: {{ request.user }}<br/>
+
 {% if object_list.count == 0 %}
     No entries found for this blogger
 {% else %}

@@ -12,7 +12,6 @@ from weblog.models import Entry, Weblog
 class EntryListView(ListView):
 
     model = Entry
-
     template_name = "weblog/entry_list.html"
     
     def get_queryset(self):
@@ -21,9 +20,14 @@ class EntryListView(ListView):
         # or site (e.g. ciaronlinstead.com -> ciaron)
     
         if self.request.subdomain != None:
-            site = get_object_or_404(User, username=self.request.subdomain)
-            self.weblog = get_object_or_404(Weblog, author=site)
-            return Entry.objects.filter(weblog=self.weblog)
+            self.siteowner = get_object_or_404(User, username=self.request.subdomain)
+            self.weblog = get_object_or_404(Weblog, author=self.siteowner)
+
+        elif self.request.domain != None:
+            self.siteowner = get_object_or_404(User, userprofile__domain=self.request.domain)
+            self.weblog = get_object_or_404(Weblog, author=self.siteowner)
+
+        return Entry.objects.filter(weblog=self.weblog)
 
     def get_context_data(self, **kwargs):
         context = super(EntryListView, self).get_context_data(**kwargs)
@@ -34,7 +38,7 @@ class EntryListView(ListView):
 
         weblogs = Weblog.objects.all()
 
-        if not self.request.subdomain:
+        if not self.siteowner: # no owner could be inferred from the domain or subdomain
             return render_to_response('weblog/weblog_list.html', {'object_list':weblogs})
 
         return super(EntryListView, self).render_to_response(context)
@@ -45,7 +49,12 @@ class EntryDetailView(DetailView):
 
     # Can this filtering be done in a Model Manager instead?
     def get_object(self):
-        siteowner = get_object_or_404(User, username=self.request.subdomain)
+
+        if self.request.subdomain:
+            siteowner = get_object_or_404(User, username=self.request.subdomain)
+        elif self.request.domain:
+            siteowner = get_object_or_404(User, userprofile__domain=self.request.domain)
+
         entry = get_object_or_404(Entry, slug=self.kwargs['entry_slug'])
 
         if entry.weblog.author != siteowner:

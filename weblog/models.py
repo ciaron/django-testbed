@@ -6,8 +6,6 @@ from datetime import datetime
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     domain = models.CharField(max_length=250)
-    domain2 = models.CharField(max_length=250)
-    domain3 = models.CharField(max_length=250)
     subdomain = models.CharField(max_length=250)
 
     def __str__(self):  
