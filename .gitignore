@@ -2,7 +2,7 @@
 *.pot
 *.swp
 *.pyc
+*.swp
 *.0
-.*.swp
 local_settings.py
 settings.py
