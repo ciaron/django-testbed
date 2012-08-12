@@ -1,0 +1,6 @@
+<h1>These are the blogs on this site:</h1>
+<ul>
+{% for blog in object_list %}
+    <li><a href="{% url entry-list blog.slug %}">{{ blog.title }}</a></li>
+{% endfor %}
+</ul>
